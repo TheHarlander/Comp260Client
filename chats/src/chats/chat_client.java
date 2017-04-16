@@ -97,9 +97,9 @@ public class chat_client extends javax.swing.JFrame {
     private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
         // TODO add your handling code here:
         try{
-        String msgout = "";
-        msgout = msg_text.getText().trim();
-        dout.writeUTF(msgout);
+            String msgout = "";
+            msgout = msg_text.getText().trim();
+            dout.writeUTF(msgout);
         }
         catch(Exception e){
         //handle excpetions here
@@ -141,11 +141,13 @@ public class chat_client extends javax.swing.JFrame {
                 new chat_client().setVisible(true);
             }
         });
+        String msgin="";
         try{
             s = new Socket("192.168.1.81",1201); //this the IP adderss is local because its running the client and server at same computer.
             din = new DataInputStream(s.getInputStream());
             dout= new DataOutputStream(s.getOutputStream());
-            String msgin="";
+            
+            
             while(!msgin.equals("exit")){
                 msgin = din.readUTF();
                 msg_area.setText(msg_area.getText().trim()+"\n Server:\t"+msgin);
