@@ -96,10 +96,6 @@ public class chat_server extends javax.swing.JFrame {
 
     private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_msg_sendActionPerformed
-
-    private void msg_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_textActionPerformed
-        // TODO add your handling code here:
         try{
             String msgout = "";
             msgout = msg_text.getText().trim();
@@ -107,6 +103,10 @@ public class chat_server extends javax.swing.JFrame {
         }catch(Exception e){
         //handle the exception here
         }
+    }//GEN-LAST:event_msg_sendActionPerformed
+
+    private void msg_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_textActionPerformed
+      
     }//GEN-LAST:event_msg_textActionPerformed
 
     /**
