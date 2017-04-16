@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package chats;
-
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 /**
  *
  * @author Dean
@@ -14,6 +17,11 @@ public class chat_client extends javax.swing.JFrame {
     /**
      * Creates new form chat_client
      */
+    static Socket s;
+    static DataInputStream din;
+    static DataOutputStream dout;
+    
+    
     public chat_client() {
         initComponents();
     }
@@ -38,9 +46,19 @@ public class chat_client extends javax.swing.JFrame {
         msg_area.setRows(5);
         jScrollPane1.setViewportView(msg_area);
 
-        msg_text.setText("jTextField1");
+        msg_text.setText("Client");
+        msg_text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                msg_textActionPerformed(evt);
+            }
+        });
 
-        msg_send.setText("jButton1");
+        msg_send.setText("Send");
+        msg_send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                msg_sendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -54,7 +72,7 @@ public class chat_client extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(msg_send))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -71,6 +89,24 @@ public class chat_client extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void msg_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_textActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_msg_textActionPerformed
+
+    private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
+        // TODO add your handling code here:
+        try{
+        String msgout = "";
+        msgout = msg_text.getText().trim();
+        dout.writeUTF(msgout);
+        }
+        catch(Exception e){
+        //handle excpetions here
+        }
+    
+    
+    }//GEN-LAST:event_msg_sendActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,6 +141,23 @@ public class chat_client extends javax.swing.JFrame {
                 new chat_client().setVisible(true);
             }
         });
+        try{
+            s = new Socket("192.168.1.81",1201); //this the IP adderss is local because its running the client and server at same computer.
+            din = new DataInputStream(s.getInputStream());
+            dout= new DataOutputStream(s.getOutputStream());
+            String msgin="";
+            while(!msgin.equals("Exit")){
+                msgin = din.readUTF();
+                msg_area.setText(msg_area.getText().trim()+"\n Server:\t"+msgin);
+            }
+                    
+        }catch(Exception e)
+        {
+        }
+        
+        
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,11 @@
  */
 package chats;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
  *
  * @author Dean
@@ -14,6 +19,12 @@ public class chat_server extends javax.swing.JFrame {
     /**
      * Creates new form chat_server
      */
+    
+    
+    static ServerSocket ss;
+    static Socket s;
+    static DataInputStream din;
+    static DataOutputStream dout;
     public chat_server() {
         initComponents();
     }
@@ -38,9 +49,19 @@ public class chat_server extends javax.swing.JFrame {
         msg_area.setRows(5);
         jScrollPane1.setViewportView(msg_area);
 
-        msg_text.setText("jTextField1");
+        msg_text.setText("Server");
+        msg_text.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                msg_textActionPerformed(evt);
+            }
+        });
 
-        msg_send.setText("jButton1");
+        msg_send.setText("Send");
+        msg_send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                msg_sendActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,6 +92,21 @@ public class chat_server extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_msg_sendActionPerformed
+
+    private void msg_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_textActionPerformed
+        // TODO add your handling code here:
+        try{
+            String msgout = "";
+            msgout = msg_text.getText().trim();
+            dout.writeUTF(msgout);//sending the server messgae to the client
+        }catch(Exception e){
+        //handle the exception here
+        }
+    }//GEN-LAST:event_msg_textActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,6 +141,24 @@ public class chat_server extends javax.swing.JFrame {
                 new chat_server().setVisible(true);
             }
         });
+        String msgin = "";
+        
+        try {
+        
+            ss = new ServerSocket (1201); // server start at 1201  port number
+            s = ss.accept();            // now server will acept connections.
+        
+            din = new DataInputStream(s.getInputStream());
+            dout = new DataOutputStream(s.getOutputStream());
+        
+            while(!msgin.equals("exit")){
+            msgin = din.readUTF();
+            msg_area.setText(msg_area.getText().trim()+"\n"+msgin); //displaying the message from client
+            }
+            
+            
+        }catch(Exception e){
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
