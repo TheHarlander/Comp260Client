@@ -146,7 +146,7 @@ public class chat_client extends javax.swing.JFrame {
             din = new DataInputStream(s.getInputStream());
             dout= new DataOutputStream(s.getOutputStream());
             String msgin="";
-            while(!msgin.equals("Exit")){
+            while(!msgin.equals("exit")){
                 msgin = din.readUTF();
                 msg_area.setText(msg_area.getText().trim()+"\n Server:\t"+msgin);
             }
