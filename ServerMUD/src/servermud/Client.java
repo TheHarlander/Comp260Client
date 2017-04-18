@@ -69,11 +69,11 @@ public class Client extends Applet implements Runnable, KeyListener{
            if(left==true){
            playerx-=10;
            }
-           if(down==true){
-           playery=10;
+           if(up==true){
+           playery-=10;
            }
            if(down==true){
-           playery-=10;
+           playery+=10;
            }
            
            if(right || left || up || down){
@@ -85,22 +85,13 @@ public class Client extends Applet implements Runnable, KeyListener{
            }
            repaint();
         try{
-           Thread.sleep(400);//400ms
-           
-           
+           Thread.sleep(400);//400ms           
        }catch (InterruptedException e){
        e.printStackTrace();
-       }
-       }
-           
-           
+        }
+       }    
     }
     
-    
-   
-    
-
-
     public void keyPressed(KeyEvent ke) {
       if (ke.getKeyCode()== 37){
          left = true;

@@ -78,10 +78,9 @@ class Users implements Runnable{
                 playeridin = in.readInt();
                 xin = in.readInt();
                 yin = in.readInt();
-                //if we get a message form the client we want to send that message to all the users.
-               
+                
                 for(int i=0; i <10; i++){
-                if (user[i] != null){                      //if user i exists send user i message
+                if (user[i] != null){                      //if user i exists send send coord
                     user[i].out.writeInt(playeridin);
                     user[i].out.writeInt(xin);
                     user[i].out.writeInt(yin);
@@ -90,11 +89,9 @@ class Users implements Runnable{
                 }
                 
             } catch (IOException e) {
-                user[playerid] =null;
+                this.user[playerid] =null;
+                break;
             }
-            
-            
-            }   
-    
+            }
         }
 }
