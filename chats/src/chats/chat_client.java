@@ -151,6 +151,11 @@ public class chat_client extends javax.swing.JFrame {
             while(!msgin.equals("exit")){
                 msgin = din.readUTF();
                 msg_area.setText(msg_area.getText().trim()+"\n Server:\t"+msgin);
+                
+                
+                
+                
+                
             }
                     
         }catch(Exception e)
