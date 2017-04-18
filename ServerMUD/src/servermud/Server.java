@@ -28,19 +28,20 @@ public class Server {
         socket  = serverSocket.accept();                    //our client will send request and server will decided to accpet and send it through socket.
                                                             //we want to create a new thread everytime we get a connection
         for(int i=0;i<10;i++){
-        System.out.println("Connection from"+ socket.getInetAddress());
-        out = new DataOutputStream(socket.getOutputStream());
-        in = new DataInputStream(socket.getInputStream());
+            if (user[i]==null){                                 //if the first one is null create a new thread if not move on
+             System.out.println("Connection from"+ socket.getInetAddress());
+             out = new DataOutputStream(socket.getOutputStream());
+             in = new DataInputStream(socket.getInputStream());
         
-        if (user[i]==null){                                 //if the first one is null create a new thread if not move on
-                user[i] = new Users(out,in,user);
-            Thread thread = new Thread(user[i]);
-            thread.start();
-            break;
+       
+             user[i] = new Users(out,in,user, i);
+             Thread thread = new Thread(user[i]);
+             thread.start();
+             break;
         
         
-                           }
-        }
+                    }
+             }
         }
     }
 }
@@ -50,12 +51,17 @@ class Users implements Runnable{
     DataInputStream in;
     Users[] user = new Users[10];
     String name;
+    int playerid;
+    int playeridin;
+    int xin;
+    int yin;
 //everytime we get an input we wanna send the output to every client
-    public Users(DataOutputStream out, DataInputStream in,Users[] user){
+    public Users(DataOutputStream out, DataInputStream in,Users[] user, int pid){
         
         this.out = out;
         this.in = in;
         this.user = user;
+        this.playerid = pid;
         
     }
    
@@ -63,25 +69,28 @@ class Users implements Runnable{
     public void run(){
         
         try {
-            name = in.readUTF();
+            out.writeInt(playerid);
         } catch (IOException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("Failed to send playerID");
         }
         while(true){
             try {
+                playeridin = in.readInt();
+                xin = in.readInt();
+                yin = in.readInt();
                 //if we get a message form the client we want to send that message to all the users.
-                String message = in.readUTF();
+               
                 for(int i=0; i <10; i++){
                 if (user[i] != null){                      //if user i exists send user i message
-                    user[i].out.writeUTF(name +": " +message);
-                
+                    user[i].out.writeInt(playeridin);
+                    user[i].out.writeInt(xin);
+                    user[i].out.writeInt(yin);
                 }       
                 
                 }
                 
             } catch (IOException e) {
-                this.out = null;
-                this.in = null;
+                user[playerid] =null;
             }
             
             
