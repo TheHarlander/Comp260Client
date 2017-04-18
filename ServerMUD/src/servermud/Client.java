@@ -26,14 +26,14 @@ public class Client extends Applet implements Runnable, KeyListener{
     boolean left,down,right,up;     //variables for player key movement
     
     int playerx;
-    int playery; //local cood
+    int playery; //local coord
     
     public void init(){
-        setSize(100,100);
+        setSize(200,200);
         addKeyListener(this);
         try{
         System.out.println("Connecting..");
-        socket = new Socket("localhost",7779);
+        socket = new Socket("localhost",7780);              //to go over internet give other person your ip address to replace localhost
         System.out.println("Connection succesful..");
         in = new DataInputStream(socket.getInputStream());
         playerid = in.readInt();
@@ -52,33 +52,37 @@ public class Client extends Applet implements Runnable, KeyListener{
     public void updateCoordinates(int pid, int x2, int y2){
         this.x[pid] = x2;
         this.y[pid] = y2;
-    
     }
+    
     public void paint(Graphics g){
         for (int i=0; i<10;i++){
         g.drawOval(x[i],y[i],5,5);
-                }
-                }
+        }
+    }
 
     public void run() {
        while (true){
            //player controll chanes coord
            if(right==true){
-           playerx+=10;}
+           playerx+=10;
+           }
            if(left==true){
-           playerx-=10;}
-           
+           playerx-=10;
+           }
            if(down==true){
-           playery=10;}
+           playery=10;
+           }
            if(down==true){
-           playery-=10;}
+           playery-=10;
+           }
            
-           if(right ||left||up||down){
+           if(right || left || up || down){
                try{
            out.writeInt(playerid);
            out.writeInt(playerx);
            out.writeInt(playery);
            }catch(Exception e){System.out.println("Errors in coordinates");}
+           }
            repaint();
         try{
            Thread.sleep(400);//400ms
@@ -91,25 +95,10 @@ public class Client extends Applet implements Runnable, KeyListener{
            
            
     }
-
     
-    public void keyTyped(KeyEvent ke) {
-     if (ke.getKeyCode()== 37){
-         left = false;
-     }
-    if (ke.getKeyCode()== 38){
-        up = false;
-     }
-      
-    if (ke.getKeyCode()== 39){
-        right = false;
-     }
-      
-    if (ke.getKeyCode()== 40){
-        down = false;
-     }
-      
-    }
+    
+   
+    
 
 
     public void keyPressed(KeyEvent ke) {
@@ -131,10 +120,26 @@ public class Client extends Applet implements Runnable, KeyListener{
 
 
     public void keyReleased(KeyEvent ke) {
-     
+      if (ke.getKeyCode()== 37){
+         left = false;
+     }
+    if (ke.getKeyCode()== 38){
+        up = false;
+     }
+      
+    if (ke.getKeyCode()== 39){
+        right = false;
+     }
+      
+    if (ke.getKeyCode()== 40){
+        down = false;
+     }
+      
     }
-}
 
+    public void keyTyped(KeyEvent ke) {
+    
+    }
 
 class Input implements Runnable{
     
@@ -159,4 +164,4 @@ class Input implements Runnable{
             }
         }    
     }
-}
+}}
