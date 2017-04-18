@@ -21,7 +21,7 @@ public class Server {
     
     public static void main(String[]args)throws Exception{
         System.out.println("Starting up server...");
-        serverSocket = new ServerSocket(7777);              //creating a new server sockete(Connect to self, also could use 127.0.0.1)
+        serverSocket = new ServerSocket(7779);              //creating a new server sockete(Connect to self, also could use 127.0.0.1)
         System.out.println("Server started up..");
        
         while(true){                                        //alows multiple clients to connect

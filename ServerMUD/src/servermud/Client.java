@@ -16,7 +16,7 @@ public class Client {
     
     public static void main(String[]args)throws Exception{
         System.out.println("Connecting..");
-        socket = new Socket("localhost",7777);
+        socket = new Socket("localhost",7779);
         System.out.println("Connection succesful..");
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
@@ -59,7 +59,7 @@ class Input implements Runnable{
             String message;
             try{
             message = in.readUTF();
-            System.out.println();
+            System.out.println(message);
             
             }catch (IOException e) {
                 e.printStackTrace();
