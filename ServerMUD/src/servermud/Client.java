@@ -29,16 +29,16 @@ public class Client extends Applet implements Runnable, KeyListener{
     int playery; //local coord
     
     public void init(){
-        setSize(200,200);
-        addKeyListener(this);
+        setSize(400,400);                                   //set seize of client window
+        addKeyListener(this);                               //adds the key listener for user to input
         try{
         System.out.println("Connecting..");
-        socket = new Socket("localhost",7780);              //to go over internet give other person your ip address to replace localhost
+        socket = new Socket("localhost",7777);              //to go over internet give other person your ip address to replace localhost
         System.out.println("Connection succesful..");
         in = new DataInputStream(socket.getInputStream());
         playerid = in.readInt();
         out = new DataOutputStream(socket.getOutputStream());
-        
+        //getting the player to a thread and giving them an id
         Input input = new Input(in,this);
         Thread thread = new Thread(input);
         thread.start();    
@@ -48,21 +48,23 @@ public class Client extends Applet implements Runnable, KeyListener{
             System.out.println("unable to start client");
         }
     }
-    
+    //update users coordinates with there id and X and Y coords
     public void updateCoordinates(int pid, int x2, int y2){
         this.x[pid] = x2;
         this.y[pid] = y2;
     }
-    
+    //draw ovals on for each player
     public void paint(Graphics g){
         for (int i=0; i<10;i++){
         g.drawOval(x[i],y[i],5,5);
         }
     }
 
+   
+    
     public void run() {
        while (true){
-           //player controll chanes coord
+           //player controll changes coord
            if(right==true){
            playerx+=10;
            }

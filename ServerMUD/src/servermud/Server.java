@@ -19,9 +19,10 @@ public class Server {
     static Users[] user = new Users[10];
     static DataInputStream in;
     
+    //Main server function
     public static void main(String[]args)throws Exception{
         System.out.println("Starting up server...");
-        serverSocket = new ServerSocket(7780);              //creating a new server sockete(Connect to self, also could use 127.0.0.1)
+        serverSocket = new ServerSocket(7777);              //creating a new server socket(Connect to self, also could use 127.0.0.1)
         System.out.println("Server started up..");
        
         while(true){                                        //alows multiple clients to connect
@@ -34,7 +35,7 @@ public class Server {
              in = new DataInputStream(socket.getInputStream());
         
        
-             user[i] = new Users(out,in,user, i);
+             user[i] = new Users(out,in,user, i);                   //give users new user id and then start a thread for them
              Thread thread = new Thread(user[i]);
              thread.start();
              break;
@@ -45,7 +46,7 @@ public class Server {
         }
     }
 }
-
+//users class, variables are defined
 class Users implements Runnable{
     DataOutputStream out;
     DataInputStream in;
@@ -78,7 +79,7 @@ class Users implements Runnable{
                 playeridin = in.readInt();
                 xin = in.readInt();
                 yin = in.readInt();
-                
+                //will be able to see every player and their coords and id(will be used for painting)
                 for(int i=0; i <10; i++){
                 if (user[i] != null){                      //if user i exists send send coord
                     user[i].out.writeInt(playeridin);
