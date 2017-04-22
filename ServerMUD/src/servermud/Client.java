@@ -1,10 +1,6 @@
-
+//Author Dean Harland
 package servermud;
 
-/**
- *
- * @author Dean
- */
 import java.applet.Applet;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -32,22 +28,25 @@ public class Client extends Applet implements Runnable, KeyListener{
         setSize(400,400);                                   //set seize of client window
         addKeyListener(this);                               //adds the key listener for user to input
         try{
-        System.out.println("Connecting..");
-        socket = new Socket("localhost",7777);              //to go over internet give other person your ip address to replace localhost
-        System.out.println("Connection succesful..");
-        in = new DataInputStream(socket.getInputStream());
-        playerid = in.readInt();
-        out = new DataOutputStream(socket.getOutputStream());
+            System.out.println("Connecting..");
+            socket = new Socket("localhost",7777);              //to go over internet give other person your ip address to replace localhost
+            System.out.println("Connection succesful..");
+            in = new DataInputStream(socket.getInputStream());
+            playerid = in.readInt();
+            out = new DataOutputStream(socket.getOutputStream());
+        
         //getting the player to a thread and giving them an id
-        Input input = new Input(in,this);
-        Thread thread = new Thread(input);
-        thread.start();    
-        Thread thread2 = new Thread(this);
-        thread2.start();
+            Input input = new Input(in,this);
+            Thread thread = new Thread(input);
+            thread.start();    
+            Thread thread2 = new Thread(this);
+            thread2.start();
+            
         }catch(Exception e){
             System.out.println("unable to start client");
         }
     }
+    
     //update users coordinates with there id and X and Y coords
     public void updateCoordinates(int pid, int x2, int y2){
         this.x[pid] = x2;
@@ -61,7 +60,7 @@ public class Client extends Applet implements Runnable, KeyListener{
     }
 
    
-    
+    //this is where the server takes the users input evert 400ms and then updates the usres coords
     public void run() {
        while (true){
            //player controll changes coord
@@ -90,7 +89,7 @@ public class Client extends Applet implements Runnable, KeyListener{
            Thread.sleep(400);//400ms           
        }catch (InterruptedException e){
        e.printStackTrace();
-        }
+         }
        }    
     }
     
@@ -141,9 +140,9 @@ class Input implements Runnable{
     public Input(DataInputStream in,Client c){
         this.in =in;
         this.client = c;
-    
     }  
-    //allows messages to be sent.
+    
+    //reads users coords and player id to update their coords.
     public void run(){
         while(true){
             
